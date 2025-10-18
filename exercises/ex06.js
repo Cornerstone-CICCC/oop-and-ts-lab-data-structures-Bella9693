@@ -4,23 +4,51 @@
 // - mostExpensive
 // Make sure to implement the Queue principle (FIFO)
 
-const Queue = require('../lib/Queue');
+const Queue = require("../lib/Queue");
 
 function storeCatalog(queue) {
   // your code here
+  const products = {};
+  let totalPrice = 0;
+  let mostExpensive = "";
+  let maxPrice = 0;
+
+  while (!queue.isEmpty()) {
+    const item = queue.dequeue();
+    const { product, price } = item;
+
+    if (!products[product]) {
+      products[product] = 1;
+    } else {
+      products[product]++;
+    }
+
+    totalPrice += price;
+
+    if (price > maxPrice) {
+      maxPrice = price;
+      mostExpensive = product;
+    }
+  }
+
+  return {
+    products,
+    totalPrice,
+    mostExpensive,
+  };
 }
 
 const store = new Queue();
-store.enqueue({ product: 'Milk', price: 10 })
-store.enqueue({ product: 'Soap', price: 5 })
-store.enqueue({ product: 'Cereal', price: 12 })
-store.enqueue({ product: 'Milk', price: 10 })
-store.enqueue({ product: 'Shampoo', price: 7 })
-store.enqueue({ product: 'Broom', price: 25 })
-store.enqueue({ product: 'Cereal', price: 9 })
+store.enqueue({ product: "Milk", price: 10 });
+store.enqueue({ product: "Soap", price: 5 });
+store.enqueue({ product: "Cereal", price: 12 });
+store.enqueue({ product: "Milk", price: 10 });
+store.enqueue({ product: "Shampoo", price: 7 });
+store.enqueue({ product: "Broom", price: 25 });
+store.enqueue({ product: "Cereal", price: 9 });
 
-const result = storeCatalog(store)
-console.log(result)
+const result = storeCatalog(store);
+console.log(result);
 // {
 //   products: {
 //     "Milk": 2,
